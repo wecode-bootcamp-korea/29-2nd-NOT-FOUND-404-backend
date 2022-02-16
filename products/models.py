@@ -22,16 +22,21 @@ class Product(TimeStampedModel):
     subcategory    = models.ForeignKey(Subcategory, on_delete=models.CASCADE),
     creator        = models.ForeignKey(Creator, on_delete=models.CASCADE),
     price          = models.PositiveIntegerField(),
-    description    = models.CharField(max_length=500),
-    curriculum     = models.CharField(max_length=200),
+    description    = models.URLField(),
     level          = models.IntegerField(),
-    duration       = models.DurationField(),
+    duration       = models.IntegerField(),
     subtitle       = models.CharField(max_length=200),
     available      = models.BooleanField(),
-    available_data = models.DateTimeField(),
 
     class Meta:
         db_table = 'products'
+
+class Curriculum(models.Model):
+    product     = models.ForeignKey(Product, on_delete=models.CASCADE),
+    description = models.CharField(max_length=200),
+
+    class Meta:
+        db_table = 'curriculums'
 
 class ProductObject(TimeStampedModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE),
@@ -40,7 +45,6 @@ class ProductObject(TimeStampedModel):
 
     class Meta:
         db_table = 'products_objectives'
-
 
 class ProductLike(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE),
