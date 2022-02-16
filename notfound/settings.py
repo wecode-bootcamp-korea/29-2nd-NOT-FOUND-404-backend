@@ -1,6 +1,7 @@
+import os
 from pathlib import Path
 
-from my_settings import DATABASES, SECRET_KEY
+from my_settings import DATABASES, SECRET_KEY, MY_AWS_ACCESS_KEY_ID, MY_AWS_SECRET_ACCESS_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'reviews',
     'users',
     'products',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +144,19 @@ CORS_ALLOW_HEADERS = (
 )
 
 APPEND_SLASH = False
+
+AWS_ACCESS_KEY_ID = MY_AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = MY_AWS_SECRET_ACCESS_KEY
+
+AWS_REGION = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'notfound'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (
+    AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]

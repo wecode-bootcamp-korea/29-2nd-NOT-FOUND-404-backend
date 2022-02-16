@@ -24,15 +24,15 @@ class ProductStatus(models.Model):
         db_table = 'product_status'
 
 class Product(TimeStampedModel):
-    title          = models.CharField(max_length=200, blank=True)
-    subcategory    = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True)
-    creator        = models.ForeignKey(Creator, on_delete=models.CASCADE, null=True)
-    price          = models.PositiveIntegerField(null=True)
-    description    = models.URLField(null=True)
-    level          = models.IntegerField(null=True)
-    duration       = models.IntegerField(null=True)
-    subtitle       = models.CharField(max_length=200, blank=True)
-    status         = models.ForeignKey(ProductStatus, on_delete=models.CASCADE)
+    title          = models.CharField(max_length=200)
+    subcategory    = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    creator        = models.ForeignKey(Creator, on_delete=models.CASCADE)
+    price          = models.PositiveIntegerField()
+    description    = models.URLField()
+    level          = models.IntegerField()
+    duration       = models.IntegerField()
+    subtitle       = models.CharField(max_length=200)
+    available      = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'products'
