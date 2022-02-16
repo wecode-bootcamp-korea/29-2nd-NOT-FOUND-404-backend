@@ -7,7 +7,6 @@ class User(TimeStampedModel):
     nickname     = models.CharField(max_length=20)
     email        = models.EmailField(max_length=100, unique=True)
     kakao_id     = models.IntegerField()
-    password     = models.CharField(max_length=200)
     rank         = models.CharField(max_length=20)
     point        = models.IntegerField(default=100000)
     phone_number = models.CharField(max_length=50, unique=True)
