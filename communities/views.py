@@ -46,9 +46,10 @@ class CommunityView(View):
             announcements = [
                 {
                     'user_id'       : announcement.user.id,
-                    'creator_name'  : [creator.name for creator in announcement.user.creator_set.all()][0],
+                    'creator_name'  : creator.name,
                     'product_id'    : announcement.product_id,
                     'content'       : announcement.content,
+                    'creator_image' : [str(query.media.storage_path) for query in creator.user.usermedia_set.all()][0]
                 } for announcement in announcements
             ][0]
         else: 

@@ -19,4 +19,3 @@ class ReviewLike(models.Model):
 
     class Meta:
         db_table = 'reviews_likes'
-

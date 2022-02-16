@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'reviews',
     'users',
     'products',
+    'markdown'
 ]
 
 MIDDLEWARE = [

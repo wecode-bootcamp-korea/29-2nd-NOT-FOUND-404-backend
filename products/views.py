@@ -1,7 +1,7 @@
 from django.http  import JsonResponse
 from django.views import View
 
-from .models import Subcategory, Product, ProductLike, Product, ProductStatusEnum
+from .models         import Subcategory, Product, ProductLike, Product, ProductStatusEnum
 from users.utils     import login_decorator
 
 class ProductDetailView(View):
