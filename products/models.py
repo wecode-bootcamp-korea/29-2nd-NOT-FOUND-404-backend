@@ -1,3 +1,5 @@
+from enum import Enum
+
 from django.db import models
 
 from creators.models import Creator
@@ -23,16 +25,20 @@ class ProductStatus(models.Model):
     class Meta:
         db_table = 'product_status'
 
+class ProductStatusEnum(Enum):
+    OPEN    = 1
+    PENDING = 2
+
 class Product(TimeStampedModel):
     title          = models.CharField(max_length=200, blank=True)
     subcategory    = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True)
     creator        = models.ForeignKey(Creator, on_delete=models.CASCADE, null=True)
     price          = models.PositiveIntegerField(null=True)
-    description    = models.URLField(null=True)
+    description    = models.TextField(null=True)
     level          = models.IntegerField(null=True)
     duration       = models.IntegerField(null=True)
     subtitle       = models.CharField(max_length=200, blank=True)
-    status         = models.ForeignKey(ProductStatus, on_delete=models.CASCADE)
+    status         = models.ForeignKey(ProductStatus, on_delete=models.CASCADE, default=ProductStatusEnum.PENDING.value, null=True)
 
     class Meta:
         db_table = 'products'
@@ -40,7 +46,6 @@ class Product(TimeStampedModel):
 class Curriculum(models.Model):
     product     = models.ForeignKey(Product, on_delete=models.CASCADE)
     description = models.CharField(max_length=200)
-
 
     class Meta:
         db_table = 'curriculums'
