@@ -7,17 +7,16 @@ from users.models import User
 
 
 class Community(TimeStampedModel):
-
     user          = models.ForeignKey(User, on_delete=models.CASCADE)
     product       = models.ForeignKey(Product, on_delete=models.CASCADE)
-    parent_review = models.ForeignKey('self', on_delete=models.CASCADE)
-    content       = models.CharField(max_length=200)
+    parent_review = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    content       = models.TextField(max_length=200)
 
     class Meta:
         db_table = 'communities'
 
 class Media(models.Model):
-    storage_path = models.URLField()
+    storage_path = models.ImageField(blank=True, null=True)
 
     class Meta:
         db_table = 'media'
@@ -36,12 +35,19 @@ class ProductObjectMedia(models.Model):
     class Meta:
         db_table = 'products_objectives_media'
 
-class ProductMedia(models.Model):
+class ProductThumbnailMedia(models.Model):
     media   = models.ForeignKey(Media, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'products_media'
+        db_table = 'products_thumbnail_media'
+
+class ProductCoverMedia(models.Model):
+    media   = models.ForeignKey(Media, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'products_cover_media'
 
 class UserMedia(models.Model):
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
