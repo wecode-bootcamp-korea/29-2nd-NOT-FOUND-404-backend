@@ -56,3 +56,4 @@ class ReviewMedia(models.Model):
 
     class Meta:
         db_table = 'reviews_media'
+
