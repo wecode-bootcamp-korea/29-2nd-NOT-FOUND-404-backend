@@ -111,3 +111,22 @@ class CreatorRegisterView(View):
         except KeyError:
             return JsonResponse({"message" : "KEYERROR"}, status=401)
 
+class ProductListView(View):
+    @login_decorator
+    def post(self,request):
+        user = request.user
+
+        user_id = Creator.objects.get(user=user.pk)
+        products = Product.objects.filter(creator=user_id).prefetch_related('productthumbnailmedia_set')
+
+        products = [{
+            'product_id' : product.pk,
+            'title'      : product.title,
+            'status'     : product.status.status,
+            'category'   : product.subcategory.name,
+            'created_at' : product.created_at,
+            'image_url'  : [product_image.media.storage_path for product_image in ProductThumbnailMedia.objects.filter(product_id=product.pk) ]
+        }for product in products]
+
+        return JsonResponse({'message' : products}, status=201)
+
