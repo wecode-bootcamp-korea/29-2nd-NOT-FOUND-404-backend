@@ -111,3 +111,49 @@ class CreatorRegisterView(View):
         except KeyError:
             return JsonResponse({"message" : "KEYERROR"}, status=401)
 
+class ProductDetailView(View):
+    @login_decorator
+    def GET(self,request,product_id):
+        user = request.user
+        product         = Product.objects.get(product_id=product_id)
+        thumbnail_image = ProductThumbnailMedia.objects.get(product_id=product_id)
+        cover_images    = ProductCoverMedia.objects.filter(product_id=product_id)
+
+        objectives      = ProductObject.objects.filter(product_id=product_id)
+        curriculums     = Curriculum.objects.filter(product_id=product_id)
+        creator         = Creator.objects.get(user=user)
+
+        detail ={
+            'title'       : product.title,
+            'category'    : product.subcategory.category.name,
+            'subcategory' : product.subcategory.name,
+            'price'       : product.level,
+            'duration'    : product.duration,
+            'subtitle'    : product.subtitle,
+            'description' : product.description
+        }
+
+        image = {
+            'thumbnail_image' : thumbnail_image.media.storage_path,
+            'cover_image'     : [cover_image.media.storage_path for cover_image in cover_images]
+        }
+
+        objectives = {
+            'image'   : [ProductObjectMedia.objects.get(product_object=object).media.storage_path for object in objectives],
+            'title'   : [object.title for object in objectives],
+            'content' : [object.content for object in objectives]
+        }
+
+        curriculums = {
+            'curriculums' : [curriculum.description for curriculum in curriculums]
+        }
+
+        creator = {
+            'image'       : UserMedia.objects.get(user=user).media.storage_path,
+            'name'        : creator.name,
+            'description' : creator.description
+        }
+
+        product_info = [detail, image, objectives, curriculums, creator]
+
+        return JsonResponse({'message' : product_info}, status=201)
