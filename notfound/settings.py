@@ -2,7 +2,6 @@ from pathlib import Path
 
 from my_settings import DATABASES, SECRET_KEY, ALGORITHM, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
 
-
 import pymysql
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
