@@ -27,6 +27,13 @@ class ProductView(View):
 
         return JsonResponse({'message':product.pk}, status=201)
 
+    @login_decorator
+    def delete(self, request, product_id):
+        product = Product.objects.get(id=product_id)
+        product.delete()
+
+        return JsonResponse({"message": "SUCCESS"}, status=201)
+
 class ProductMediaView(View):
     def post(self, request, product_id):
         media_category = request.POST.get('mediaCategory', None)
