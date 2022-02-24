@@ -9,6 +9,7 @@ from users.models import User
 from reviews.models import Review
 from communities.models import Media, ProductThumbnailMedia, ProductCoverMedia, ProductObjectMedia, UserMedia, ReviewMedia
 from core.s3_storages import s3_client
+from users.utils import login_decorator
 
 class ProductView(View):
     @login_decorator
