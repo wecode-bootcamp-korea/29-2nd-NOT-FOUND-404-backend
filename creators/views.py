@@ -9,6 +9,7 @@ from users.models import User
 from reviews.models import Review
 from communities.models import Media, ProductThumbnailMedia, ProductCoverMedia, ProductObjectMedia, UserMedia, ReviewMedia
 from core.s3_storages import s3_client
+from users.utils import login_decorator
 
 class ProductView(View):
     @login_decorator
@@ -36,7 +37,7 @@ class ProductView(View):
 
 class ProductMediaView(View):
     def post(self, request, product_id):
-        media_category = request.POST.get('mediaCategory', None)
+        media_category = request.GET.get('mediaCategory', None)
         files = request.FILES.getlist("images", None)
 
         for file in files:
@@ -53,12 +54,13 @@ class ProductMediaView(View):
                 product = Product.objects.get(id=product_id)
                 product_thumbnail_media_info = ProductThumbnailMedia(media=image_info, product=product)
                 product_thumbnail_media_info.save()
+
         return JsonResponse({"message": "Image Upload Success"})
 
 class ProductObjectView(View):
     @login_decorator
     def post(self, request, product_id):
-        data_list = request.POST.getlist("dataList")
+        data_list = request.GET.getlist("dataList")
         files = request.FILES.getlist("image", None)
 
         json_data = [json.loads(data) for data in data_list]
