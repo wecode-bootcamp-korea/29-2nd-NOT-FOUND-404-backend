@@ -60,7 +60,7 @@ class ProductMediaView(View):
 class ProductObjectView(View):
     @login_decorator
     def post(self, request, product_id):
-        data_list = request.GET.getlist("dataList")
+        data_list = request.POST.getlist("dataList")
         files = request.FILES.getlist("image", None)
 
         json_data = [json.loads(data) for data in data_list]
@@ -132,7 +132,7 @@ class ProductDetailView(View):
         curriculums     = Curriculum.objects.filter(product_id=product_id)
         creator         = Creator.objects.get(user=user)
 
-        detail ={
+        detail = {
             'title'       : product.title,
             'category'    : product.subcategory.category.name,
             'subcategory' : product.subcategory.name,

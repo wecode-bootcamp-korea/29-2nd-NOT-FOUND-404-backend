@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from my_settings import DATABASES, SECRET_KEY, aws_secret_access_key, aws_access_key_id, aws_storage_bucket_name
+from my_settings import DATABASES, SECRET_KEY, aws_secret_access_key, aws_access_key_id, aws_storage_bucket_name, ALGORITHM
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
