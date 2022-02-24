@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from my_settings import DATABASES, SECRET_KEY, ALGORITHM, REDIRECT_URI, KAKAO_REST_API_KEY, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
+from my_settings import DATABASES, SECRET_KEY, ALGORITHM, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
+
 
 import pymysql
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 pymysql.install_as_MySQLdb()
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -17,15 +17,13 @@ pymysql.install_as_MySQLdb()
 SECRET_KEY = SECRET_KEY
 
 ALGORITHM=ALGORITHM
-REDIRECT_URI = REDIRECT_URI
-
-KAKAO_REST_API_KEY = KAKAO_REST_API_KEY
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+ALGORITHM = ALGORITHM
 
 
 # Application definition
@@ -150,6 +148,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
     'access-token',
+    'product_id',
 )
 
 APPEND_SLASH = False
