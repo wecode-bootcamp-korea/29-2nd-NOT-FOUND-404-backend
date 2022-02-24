@@ -58,7 +58,7 @@ class ProductMediaView(View):
         return JsonResponse({"message": "Image Upload Success"})
 
 class ProductObjectView(View):
-    @login_decorator
+    #@login_decorator
     def post(self, request, product_id):
         data_list = request.POST.getlist("dataList")
         files = request.FILES.getlist("image", None)
