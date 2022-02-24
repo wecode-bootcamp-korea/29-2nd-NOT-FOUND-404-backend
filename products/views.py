@@ -1,12 +1,12 @@
 from django.http  import JsonResponse
 from django.views import View
 
-from .models import Product, ProductStatus
+from .models import Product, ProductStatusEnum
 
 class ProductDetailView(View):
     def get(self, request, product_id):
         try:
-            product = Product.objects.select_related('creator','subcategory').get(id=product_id, status_id=ProductStatus.OPEN.value)
+            product = Product.objects.select_related('creator','subcategory').get(id=product_id, status_id=ProductStatusEnum.OPEN.value)
 
             product_result = {
                 'title'              : product.title,
@@ -21,15 +21,15 @@ class ProductDetailView(View):
                 'subtitle'           : product.subtitle,
                 'creator_description': product.creator.description,
                 'creator_name'       : product.creator.name,
-                'creator_image'      : [query.media.storage_path for query in product.creator.user.usermedia_set.all()][0],
+                'creator_image'      : [str(query.media.storage_path) for query in product.creator.user.usermedia_set.all()][0],
                 'likes'              : len(product.productlike_set.all()),
                 'objects'            : [{'title': object.title,
                                         'content': object.content,
-                                        'image': [query.media.storage_path for query in object.productobjectmedia_set.all()][0],
+                                        'image': [str(query.media.storage_path) for query in object.productobjectmedia_set.all()][0],
                                         'id' : object.id} 
                                     for object in product.productobject_set.all()],
-                'cover_images'       : [query.media.storage_path for query in product.productcovermedia_set.all()],
-                'thumbnail'          : [query.media.storage_path for query in product.productthumbnailmedia_set.all()][0],
+                'cover_images'       : [str(query.media.storage_path) for query in product.productcovermedia_set.all()],
+                'thumbnail'          : [str(query.media.storage_path) for query in product.productthumbnailmedia_set.all()][0],
             }
             return JsonResponse({'product_result': product_result}, status=200) 
               
