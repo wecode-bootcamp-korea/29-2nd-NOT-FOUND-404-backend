@@ -157,3 +157,21 @@ class ProductDetailView(View):
         product_info = [detail, image, objectives, curriculums, creator]
 
         return JsonResponse({'message' : product_info}, status=201)
+
+class ProductListView(View):
+    @login_decorator
+    def get(self,request):
+        user = request.user
+
+        products = Product.objects.filter(creator__user_id=user.pk).prefetch_related('productthumbnailmedia_set')
+
+        products = [{
+            'product_id': product.pk,
+            'title'     : product.title,
+            'status'    : product.status.status,
+            'category'  : product.subcategory.name,
+            'created_at': product.created_at,
+            'image_url' : [product_thumbnail.media.storage_path for product_thumbnail in product.productthumbnail]
+        }for product in products]
+
+        return JsonResponse({'message' : products}, status=201)
